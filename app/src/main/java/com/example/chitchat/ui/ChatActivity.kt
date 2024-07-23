@@ -43,6 +43,7 @@ class ChatActivity : AppCompatActivity() {
             Log.d("WebSocket","sender--$senderId receiver--$receiverId")
         }
 
+        binding?.targetUserNameTextView?.text=receiverId
 
         val toolbar = binding?.toolbar
         setSupportActionBar(toolbar)
@@ -75,7 +76,7 @@ class ChatActivity : AppCompatActivity() {
 
 
         chatListener = ChatListener(chatEndPoint)
-        val queueHandler = chatListener.subscribeToQueue("/user/${senderId}/queue/messages")
+        val queueHandler = chatListener.subscribeToQueue("/user/${receiverId}/queue/messages")
 
         queueHandler.listener= object :StompMessageListener{
             override fun onMessage(stompMessage: StompMessage) {
@@ -116,7 +117,7 @@ class ChatActivity : AppCompatActivity() {
                     content = message
                 )
                 chatDeliver = ChatDeliver(chat)
-                val queueHandler = chatDeliver.subscribeToQueue("/user/${senderId}/queue/messages")
+                val queueHandler = chatDeliver.subscribeToQueue("/user/${receiverId}/queue/messages")
 
                 queueHandler.listener= object :StompMessageListener{
                     override fun onMessage(stompMessage: StompMessage) {
