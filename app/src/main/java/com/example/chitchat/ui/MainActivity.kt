@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chitchat.R
+import com.example.chitchat.app_data.PrefManager
 import com.example.chitchat.databinding.ActivityMainBinding
 import com.example.chitchat.model.User
 import com.example.chitchat.retrofit.RetrofitClient
@@ -21,11 +22,23 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding?=null
+    private lateinit var prefManager: PrefManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+        prefManager=PrefManager(this)
+
+        if(prefManager.isUserSet()){
+            val intent = Intent(applicationContext, TabActivity::class.java)
+            val bundle = Bundle().apply {
+                putParcelable("CurrentUserKey",prefManager.getUser())
+            }
+            intent.putExtras(bundle)
+            startActivity(intent)
+            finish()
+        }
 
         binding?.userNameEditText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -55,10 +68,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
-
-
-
     }
 
     private fun startTabActivity(id: Int) {
@@ -75,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         }
         intent.putExtras(bundle)
         startActivity(intent)
+        finish()
     }
 
     private fun addUser(user:User) {
@@ -91,6 +101,7 @@ class MainActivity : AppCompatActivity() {
                             binding?.userNameTakenTextView?.visibility = View.INVISIBLE
                             Toast.makeText(this@MainActivity,"User Added Successfully",Toast.LENGTH_SHORT).show()
                             if (addedUser != null) {
+                                prefManager.saveUser(addedUser)
                                 startTabActivity(addedUser.id)
                             }
                         }
