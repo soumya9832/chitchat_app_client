@@ -6,10 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chitchat.Hola
 import com.example.chitchat.R
 import com.example.chitchat.adapter.UserAdapter
 import com.example.chitchat.config.InternetAddress
@@ -52,6 +50,7 @@ class UserFragment : Fragment() {
 
 
         userListListener = UserListListener()
+
         val topicHandler = userListListener.subscribeToTopic("/topic/userList")
             topicHandler.listeners.add(object : StompMessageListener {
                 override fun onMessage(stompMessage: StompMessage) {

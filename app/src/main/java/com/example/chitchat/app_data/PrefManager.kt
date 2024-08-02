@@ -29,5 +29,5 @@ class PrefManager(context: Context) {
     fun isUserSet(): Boolean {
         return sharedPreferences.contains(keyUser)
     }
-    
+
 }

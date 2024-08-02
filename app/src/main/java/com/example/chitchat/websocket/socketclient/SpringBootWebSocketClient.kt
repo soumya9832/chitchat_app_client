@@ -58,7 +58,6 @@ open class SpringBootWebSocketClient : WebSocketListener() {
             command = "CONNECT",
             headers = mutableMapOf("accept-version" to "1.1", "heart-beat" to "10000,10000")
         )
-
         webSocket.send(StompMessageSerializer.serialize(message))
     }
 

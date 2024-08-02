@@ -93,6 +93,13 @@ dependencies {
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
 
+    implementation("com.mesibo.api:webrtc:1.0.5")
+
+    implementation("org.java-websocket:Java-WebSocket:1.5.3")
+
+    //Easy Permissions
+    implementation("com.guolindev.permissionx:permissionx:1.6.1")
+
 
 
 
